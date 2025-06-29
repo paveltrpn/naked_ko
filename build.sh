@@ -8,6 +8,7 @@ cleanBuildArtifacts() {
     echo -e "clean...\n"
     rm -r $BUILD_ARTIFACTS_DIR
 }
+
 if [ ! -d "$BUILD_ARTIFACTS_DIR" ]; then
   echo "$BUILD_ARTIFACTS_DIR does not exist. Create one..."
   mkdir $BUILD_ARTIFACTS_DIR
@@ -22,7 +23,7 @@ while [[ $# -gt 0 ]]; do
       shift # past value
       ;;
     -c|--compile)
-      echo -e "compile... jvm target=$JVM_TARGET\n\n"
+      echo -e "compile... jvm target=$JVM_TARGET\n"
       kotlinc -jvm-target $JVM_TARGET $SOURCE_DIR/Main.kt -d $BUILD_ARTIFACTS_DIR -verbose
       shift # past argument
       shift # past value
