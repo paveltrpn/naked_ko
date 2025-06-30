@@ -6,11 +6,8 @@ MAIN_PACKAGE="naked"
 
 shopt -s nullglob
 
-MAIN_SOURCE_DIR="src"
-MAIN_SOURCE='src/Main.kt src/Additional.kt'
-
-MODULE_PKG_DIR="src/module"
-MODULE_PKG_SOURCE='src/module/Module.kt'
+MAIN_SOURCE='test/src/main/kotlin/Main.kt test/src/main/kotlin/Additional.kt'
+MODULE_PKG_SOURCE='modules/src/main/kotlin/first/Module.kt'
 
 cleanBuildArtifacts() {
     echo -e "=== clean..."
