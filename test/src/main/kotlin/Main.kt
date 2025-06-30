@@ -1,6 +1,6 @@
 package naked
 
-import module.Module
+import first.Module
 
 fun main() {
     println("hello world")

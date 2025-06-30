@@ -1,4 +1,4 @@
-package module
+package first
 
 class Module {
     fun LoneleyModuleMethod(): Unit {

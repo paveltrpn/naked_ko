@@ -2,3 +2,12 @@ META-INF/*
 *.class
 out/*
 !out/.gitkeep
+.gradle
+build
+gradlew
+gradlew.bat
+gradle/*
+.idea/
+
+modules/build/*
+test/build/*
