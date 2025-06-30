@@ -2,12 +2,14 @@
 
 BUILD_ARTIFACTS_DIR="out"
 JVM_TARGET=21
+KOTLIN_VERSION="2.2"
 MAIN_PACKAGE="naked"
 
 shopt -s nullglob
 
-MAIN_SOURCE='test/src/main/kotlin/Main.kt test/src/main/kotlin/Additional.kt'
-MODULE_PKG_SOURCE='modules/src/main/kotlin/first/Module.kt'
+TEST_SOURCE='test/src/main/kotlin/Main.kt test/src/main/kotlin/Additional.kt'
+FIBO_SOURCE='fibo/src/main/kotlin/fibo/fibo.kt'
+MODULE_PKG_SOURCE='modules/src/main/kotlin/first/Module.kt modules/src/main/kotlin/algebra/mtrx2.kt'
 
 cleanBuildArtifacts() {
     echo -e "=== clean..."
@@ -19,17 +21,29 @@ if [ ! -d "$BUILD_ARTIFACTS_DIR" ]; then
   mkdir $BUILD_ARTIFACTS_DIR
 fi
 
-compile() {
-    echo -e "=== compile... jvm target=$JVM_TARGET, sources:\n$MAIN_SOURCE\n$MODULE_PKG_SOURCE\n"
-    kotlinc -jvm-target $JVM_TARGET \
-        $MAIN_SOURCE \
+build() {
+    echo -e "=== build..."
+    echo -e "jvm target=$JVM_TARGET"
+    echo -e "kotlin version=$KOTLIN_VERSION"
+    echo -e "sources:"
+    echo -e "$TEST_SOURCE"
+    echo -e "$FIBO_SOURCE"
+    echo -e "$MODULE_PKG_SOURCE\n"
+
+    kotlinc \
+        -jvm-target $JVM_TARGET \
+        -language-version $KOTLIN_VERSION \
+        -include-runtime \
+        $TEST_SOURCE \
+        $FIBO_SOURCE \
         $MODULE_PKG_SOURCE \
-        -d $BUILD_ARTIFACTS_DIR -verbose
+        -d $BUILD_ARTIFACTS_DIR/a.jar -verbose
 }
 
 run() {
     echo -e "=== run...\n"
-    java -cp $BUILD_ARTIFACTS_DIR naked.MainKt
+    java -cp $BUILD_ARTIFACTS_DIR/a.jar naked.MainKt
+    java -cp $BUILD_ARTIFACTS_DIR/a.jar fibo.FiboKt
 }
 
 while [[ $# -gt 0 ]]; do
@@ -40,14 +54,14 @@ while [[ $# -gt 0 ]]; do
       shift # past argument
       shift # past value
       ;;
-    -c|--compile)
-      compile
+    -b|--build)
+      build
 
       shift # past argument
       shift # past value
       ;;
     -a|--all)
-      compile
+      build
       run
 
       shift # past argument

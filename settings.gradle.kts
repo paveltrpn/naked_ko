@@ -8,3 +8,4 @@
 rootProject.name = "naked_ko"
 include("modules")
 include("test")
+include("fibo")

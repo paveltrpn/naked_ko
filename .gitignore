@@ -11,3 +11,4 @@ gradle/*
 
 modules/build/*
 test/build/*
+fibo/build/*
