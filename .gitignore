@@ -12,3 +12,4 @@ gradle/*
 modules/build/*
 test/build/*
 fibo/build/*
+objrectifier/src/main/resources/*
