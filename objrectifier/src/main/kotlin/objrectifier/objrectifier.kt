@@ -18,6 +18,7 @@ class ObjRectifier : CliktCommand() {
     }
 }
 
+// usage: gradle objrectifier:run --args="-i a -o b"
 fun main(args: Array<String>) {
     try {
         ObjRectifier().main(args)
