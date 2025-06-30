@@ -1,30 +1,58 @@
 #!/bin/bash
 
-SOURCE_DIR="src"
 BUILD_ARTIFACTS_DIR="out"
-JVM_TARGET=24
+JVM_TARGET=21
+MAIN_PACKAGE="naked"
+
+shopt -s nullglob
+
+MAIN_SOURCE_DIR="src"
+MAIN_SOURCE='src/Main.kt src/Additional.kt'
+
+MODULE_PKG_DIR="src/module"
+MODULE_PKG_SOURCE='src/module/Module.kt'
 
 cleanBuildArtifacts() {
-    echo -e "clean...\n"
+    echo -e "=== clean..."
     rm -r $BUILD_ARTIFACTS_DIR
 }
 
 if [ ! -d "$BUILD_ARTIFACTS_DIR" ]; then
-  echo "$BUILD_ARTIFACTS_DIR does not exist. Create one..."
+  echo -e "=== $BUILD_ARTIFACTS_DIR does not exist. Create one...\n"
   mkdir $BUILD_ARTIFACTS_DIR
 fi
+
+compile() {
+    echo -e "=== compile... jvm target=$JVM_TARGET, sources:\n$MAIN_SOURCE\n$MODULE_PKG_SOURCE\n"
+    kotlinc -jvm-target $JVM_TARGET \
+        $MAIN_SOURCE \
+        $MODULE_PKG_SOURCE \
+        -d $BUILD_ARTIFACTS_DIR -verbose
+}
+
+run() {
+    echo -e "=== run...\n"
+    java -cp $BUILD_ARTIFACTS_DIR naked.MainKt
+}
 
 while [[ $# -gt 0 ]]; do
   case $1 in
     -r|--run)
-      echo -e "run...\n"
-      java -cp $BUILD_ARTIFACTS_DIR MainKt
+      run
+
       shift # past argument
       shift # past value
       ;;
     -c|--compile)
-      echo -e "compile... jvm target=$JVM_TARGET\n"
-      kotlinc -jvm-target $JVM_TARGET $SOURCE_DIR/Main.kt -d $BUILD_ARTIFACTS_DIR -verbose
+      compile
+
+      shift # past argument
+      shift # past value
+      ;;
+    -a|--all)
+      compile
+      run
+
       shift # past argument
       shift # past value
       ;;
