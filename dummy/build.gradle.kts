@@ -12,7 +12,6 @@ repositories {
 }
 
 kotlin {
-    jvmToolchain(21)
 }
 
 application {

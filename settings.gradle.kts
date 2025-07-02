@@ -7,6 +7,6 @@
 
 rootProject.name = "naked_ko"
 include("modules")
-include("test")
+include("dummy")
 include("fibo")
 include("objrectifier")

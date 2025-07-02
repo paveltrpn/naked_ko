@@ -10,8 +10,8 @@ shopt -s nullglob
 # ==============================================
 # === define sources
 TEST_SOURCE=(
-  test/src/main/kotlin/Main.kt
-  test/src/main/kotlin/Additional.kt
+  dummy/src/main/kotlin/Main.kt
+  dummy/src/main/kotlin/Additional.kt
 )
 
 FIBO_SOURCE=(
